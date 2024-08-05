@@ -1,0 +1,31 @@
+from uuid import uuid4
+from src.models.repository.events_repository import EventRepository
+from src.models.settings.connection import db_connection_handler
+from sqlalchemy.exc import IntegrityError, NoResultFound
+
+
+db_connection_handler.connect_to_db()
+
+ID_TEST = str(uuid4())
+
+def test_inser_event():
+    event = {
+        "uuid": ID_TEST,
+        "title": "Evento Teste",
+        "details": "Testando insercao de dados",
+        "slug": f"evento-teste-{uuid4()}",
+        "maximum_attendees": 10
+    }
+    event_repository = EventRepository()
+    response = event_repository.insert_event(event)
+    print(f"Dados inseridos com sucesso: {response}")
+
+def test_get_event_by_id():
+    db_connection_handler.connect_to_db()
+    event_id = ID_TEST
+    event_repository = EventRepository()
+    try:
+        response = event_repository.get_event_by_id(event_id)
+        print(response)
+    except NoResultFound:
+        print("Nenhum dado encontrado!")
