@@ -13,7 +13,7 @@ def test_inser_event():
         "uuid": ID_TEST,
         "title": "Evento Teste",
         "details": "Testando insercao de dados",
-        "slug": f"evento-teste-{uuid4()}",
+        "slug": f"evento-teste-{ID_TEST[:8]}",
         "maximum_attendees": 10
     }
     event_repository = EventRepository()
