@@ -11,7 +11,7 @@ ID_TEST = str(uuid4())
 
 
 @pytest.mark.skip(reason="Dont want to create a new event.")
-def test_inser_event():
+def test_insert_event():
     event = {
         "uuid": ID_TEST,
         "title": "Event test",
