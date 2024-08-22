@@ -1,7 +1,15 @@
 {
     "files.exclude": {
-        "**/*.pyc": {"when": "$(basename).py"},
+        "**/*.pyc": {
+            "when": "$(basename).py"
+        },
         "**/__pycache__": true,
         "**/*.pytest_cache": true
-    }
+    },
+    "flake8.args": [
+        "python.linting.flake8Enabled=true",
+        "python.linting.enabled=true",
+        "--max-line-length=120",
+        "--ignore=E501,W503"
+    ]
 }
