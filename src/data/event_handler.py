@@ -26,8 +26,8 @@ class EventHandler:
                 status_code=404
             )
 
-        event_count_attendees = self.__events_repository.count_event_attendees(
-            event_id)
+        event_count_attendees = self.__events_repository.count_event_attendees(event_id)
+
         return HttpResponse(
             body={
                 "event": {
