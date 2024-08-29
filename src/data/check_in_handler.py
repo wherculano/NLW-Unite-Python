@@ -12,6 +12,4 @@ class CheckInHandler:
     def register(self, http_request: HttpRequest) -> HttpResponse:
         attendee_id = http_request.param["attendee_id"]
         response = self.__check_in_repository.insert_check_in(attendee_id)
-        if "detail" in response:
-            return HttpResponse(body=response, status_code=409)
         return HttpResponse(body=response, status_code=201)

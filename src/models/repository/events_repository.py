@@ -1,4 +1,5 @@
 from typing import Dict
+from src.errors.error_types.http_409_conflict import HttpConflictError
 from src.models.settings.connection import db_connection_handler
 from src.models.entities.events import Events
 from src.models.entities.attendees import Attendees
@@ -21,7 +22,7 @@ class EventRepository:
                 db.session.commit()
                 return event_info
             except IntegrityError:
-                raise Exception("Event already exists!")
+                raise HttpConflictError("Event already exists!")
             except Exception as exception:
                 db.session.rollback()
                 raise exception

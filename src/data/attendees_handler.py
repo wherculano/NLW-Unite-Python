@@ -1,5 +1,7 @@
 from uuid import uuid4
 
+from src.errors.error_types.http_404_not_found import HttpNotFoundError
+from src.errors.error_types.http_409_conflict import HttpConflictError
 from src.http_types.http_request import HttpRequest
 from src.http_types.http_response import HttpResponse
 from src.models.repository.attendees_repository import AttendeesRepository
@@ -21,7 +23,7 @@ class AttendeesHandler:
             and event_count_attendees["maximumAttendees"]
             < event_count_attendees["attendeesAmount"]
         ):
-            raise Exception("The event is crowded!")
+            raise HttpConflictError("The event is crowded!")
 
         body["uuid"] = str(uuid4())
         body["event_id"] = event_id
@@ -32,7 +34,7 @@ class AttendeesHandler:
         attendee_id = http_request.param["attendee_id"]
         badge = self.__attendees_repository.get_attendee_badge_by_id(attendee_id)
         if not badge:
-            raise Exception("Attendee not found!")
+            raise HttpNotFoundError("Attendee not found!")
         return HttpResponse(
             body={
                 "badge": {
@@ -48,7 +50,7 @@ class AttendeesHandler:
         event_id = http_request.param["event_id"]
         attendees = self.__attendees_repository.get_attendees_by_event_id(event_id)
         if not attendees:
-            return HttpResponse(body={}, status_code=200)
+            raise HttpNotFoundError("Attendees not found!")
         formatted_attendees = [
             {
                 "id": attendee.id,

@@ -2,6 +2,7 @@ from typing import Dict, List
 
 from sqlalchemy.exc import IntegrityError, NoResultFound
 
+from src.errors.error_types.http_409_conflict import HttpConflictError
 from src.models.entities.attendees import Attendees
 from src.models.entities.check_ins import CheckIns
 from src.models.entities.events import Events
@@ -22,7 +23,7 @@ class AttendeesRepository:
                 db.session.commit()
                 return attendee_info
             except IntegrityError:
-                raise Exception("Attendee already exists!")
+                raise HttpConflictError("Attendee already exists!")
             except Exception as exception:
                 db.session.rollback()
                 raise exception
